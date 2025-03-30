@@ -15,4 +15,3 @@ This project started as a way to build hands-on Linux and virtualization skills 
   sudo rmmod kvm_intel
   sudo rmmod kvm
   sudo modprobe vboxdrv
-
