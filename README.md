@@ -15,8 +15,9 @@ This project started as a way to build hands-on Linux and virtualization skills 
   sudo rmmod kvm_intel
   sudo rmmod kvm
   sudo modprobe vboxdrv
-Worked but reset on reboot.
-Automated Fix: Created load_vbox_modules.sh:
+
+  Worked but reset on reboot—VirtualBox would hit the VERR_VMX_IN_VMX_ROOT_MODE error again after a restart.
+Automated Fix: Created load_vbox_modules.sh as a temporary solution for those unable to resolve the VERR_VMX_IN_VMX_ROOT_MODE error:
 bash
 
 #!/bin/bash
@@ -33,22 +34,41 @@ if [ -f "$TEMP_FILE" ]; then
 else
   echo "Script execution failed - check pkexec or permissions."
 fi
-Double-clicking this script unloads KVM and loads VirtualBox modules, making the VM runnable post-reboot.
+
+Double-clicking this script unloads KVM and loads VirtualBox modules, making the VM runnable post-reboot until a permanent fix (like blacklisting KVM) is applied.
+
 Jumpserver Setup
 VM Specs: 10GB dynamic disk, 4096 MB RAM, Bridged Adapter.
+
 Progress:
 Installed Ubuntu 24.04.2 LTS.
+
 Named it "jumpserver" by adding 127.0.0.1 jumpserver to /etc/hosts (hit a nano typing glitch, fixed with echo).
+
 Set hostname: sudo hostnamectl set-hostname jumpserver.
+
 Next: Installing SSH server (openssh-server) and pen testing tools (e.g., Nmap, Metasploit).
+
 Goals
 Build a secure jumpserver for cybersecurity labs.
+
 Document troubleshooting and scripting skills for my portfolio.
+
 Prep for Security+ topics like network security and threat detection.
+
 Next Steps
 Test SSH access from host: ssh user@jumpserver-ip.
+
 Add tools and firewall (UFW).
+
 Make VirtualBox fix persistent (blacklist KVM, auto-load vboxdrv).
+
 Files
 `load_vbox_modules.sh` (load_vbox_modules.sh): Script to fix VirtualBox.
+
 Last Updated: March 2025
+
+sudo apt update
+sudo apt install -y wget gnupg2
+wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+sudo add-apt-repository "deb http://download.virtualbox.org/virtualbox/debian buster contrib"
